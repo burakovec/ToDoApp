@@ -4,7 +4,7 @@ using ToDoApp.Domain.Entities;
 
 namespace ToDoApp.Application.ToDo.Queries
 {
-    public class GetToDoListQuery : IRequest<List<ToDoItem>>
+    public class GetToDoListQuery : IRequest<IQueryable<ToDoItem>>
     {
         public GetToDoListQuery(string username)
         {

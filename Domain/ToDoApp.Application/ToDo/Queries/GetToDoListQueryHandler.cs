@@ -7,7 +7,7 @@ using ToDoApp.Domain.Enums;
 
 namespace ToDoApp.Application.ToDo.Queries
 {
-    public class GetTaskListQueryHandler : IRequestHandler<GetToDoListQuery, List<ToDoItem>>
+    public class GetTaskListQueryHandler : IRequestHandler<GetToDoListQuery, IQueryable<ToDoItem>>
     {
         private readonly IToDoQueryRepository _queryRepository;
 
@@ -16,10 +16,10 @@ namespace ToDoApp.Application.ToDo.Queries
             _queryRepository = toDoRepository;
         }
 
-        public async Task<List<ToDoItem>> Handle(GetToDoListQuery request, CancellationToken cancellationToken)
+        public async Task<IQueryable<ToDoItem>> Handle(GetToDoListQuery request, CancellationToken cancellationToken)
         {
             var toDoList = await _queryRepository.GetToDoList(request.Username);
-            return toDoList.Where(x => x.Status != Status.Deleted).ToList();
+            return toDoList.Where(x => x.Status != Status.Deleted).AsQueryable();
         }
     }
 }
