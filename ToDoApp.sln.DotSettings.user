@@ -1,0 +1,7 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=25c8a553_002D3327_002D4a65_002D9252_002Dfbde949e4de9/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DeleteToDoCommandHandlerShould" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::B821001F-6987-4EC8-A674-6164C8BAEEB0::net6.0::ToDoApp.UnitTests.Application.User.RegisterUserCommandHandlerShould&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::B821001F-6987-4EC8-A674-6164C8BAEEB0::net6.0::ToDoApp.UnitTests.Application.User.GetTokenQueryHandlerShould&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

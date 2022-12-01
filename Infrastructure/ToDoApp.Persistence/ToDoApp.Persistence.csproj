@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20190522171404_initial.cs" />
+    <Compile Remove="Migrations\20190522171404_initial.Designer.cs" />
+    <Compile Remove="Migrations\20190522172012_initial.cs" />
+    <Compile Remove="Migrations\20190522172012_initial.Designer.cs" />
+    <Compile Remove="Migrations\20190522173024_initial.cs" />
+    <Compile Remove="Migrations\20190522173024_initial.Designer.cs" />
+    <Compile Remove="Migrations\20190522175123_initial.cs" />
+    <Compile Remove="Migrations\20190522175123_initial.Designer.cs" />
+    <Compile Remove="Migrations\20190522181615_initial2.cs" />
+    <Compile Remove="Migrations\20190522181615_initial2.Designer.cs" />
+    <Compile Remove="Migrations\20190608145858_Identity.cs" />
+    <Compile Remove="Migrations\20190608145858_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20190608150514_Identity.cs" />
+    <Compile Remove="Migrations\20190608150514_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20190608151457_Identity.cs" />
+    <Compile Remove="Migrations\20190608151457_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20190608151838_Identity.cs" />
+    <Compile Remove="Migrations\20190608151838_Identity.Designer.cs" />
+    <Compile Remove="Migrations\20190609123834_identity.cs" />
+    <Compile Remove="Migrations\20190609123834_identity.Designer.cs" />
+    <Compile Remove="Migrations\20190609131045_identity.cs" />
+    <Compile Remove="Migrations\20190609131045_identity.Designer.cs" />
+    <Compile Remove="Migrations\20190609133718_identity.cs" />
+    <Compile Remove="Migrations\20190609133718_identity.Designer.cs" />
+    <Compile Remove="Migrations\20190609134536_identity.cs" />
+    <Compile Remove="Migrations\20190609134536_identity.Designer.cs" />
+    <Compile Remove="Migrations\20190609141229_identity.cs" />
+    <Compile Remove="Migrations\20190609141229_identity.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Domain\ToDoApp.Application\ToDoApp.Application.csproj" />
+    <ProjectReference Include="..\ToDoApp.Identity\ToDoApp.Identity.csproj" />
+  </ItemGroup>
+
+</Project>

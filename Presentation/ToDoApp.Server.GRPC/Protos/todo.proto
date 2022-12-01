@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+option csharp_namespace = "ToDoApp.Server.GRPC";
+
+package todo;
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/Empty.proto";
+
+service ToDo {
+	rpc GetToDoList (GetToDoListRequest) returns (GetToDoListReply);
+	rpc AddToDo (AddToDoRequest) returns (google.protobuf.Empty);
+	rpc UpdateToDo (UpdateToDoRequest) returns (google.protobuf.Empty);
+	rpc DeleteToDo (DeleteToDoRequest) returns (google.protobuf.Empty);
+}
+
+message GetToDoListRequest {
+	string username = 1;
+}
+
+message GetToDoListReply {
+	message ToDoView {
+		string description = 1;
+		int32 status = 2;
+		google.protobuf.Timestamp CreatedDate = 3;
+		string id = 4;
+	}
+	repeated ToDoView ToDoList = 1;
+}
+
+message AddToDoRequest {
+	string description = 1;
+	string username = 2;
+	string id = 3;
+}
+
+message UpdateToDoRequest {
+	string description = 1;
+	string username = 2;
+	string id = 3;
+	int32 status = 4;
+}
+
+message DeleteToDoRequest {
+	string username = 1;
+	string id = 2;
+}

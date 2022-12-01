@@ -1,0 +1,1 @@
+﻿The scope of this project is to implement the interfaces needed for ToDoApp.Application layer in order to get the data from the database.

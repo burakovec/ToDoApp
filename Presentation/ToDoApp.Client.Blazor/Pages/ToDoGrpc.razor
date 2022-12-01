@@ -1,0 +1,135 @@
+﻿@page "/todogrpc"
+@inject GrpcChannel Channel
+@using Blazored.LocalStorage
+@using ToDoApp.Server.GRPC
+@using Microsoft.AspNetCore.Components.Authorization
+@using Grpc.Core;
+@using ToDoApp.Domain.Entities
+@using Status = ToDoApp.Domain.Enums.Status
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ILocalStorageService LocalStorageService
+
+<h1>To Do GRPC</h1>
+
+<p>To Do list.</p>
+
+@if (toDoList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Created date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Start</th>
+                <th scope="col">Complete</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var toDo in toDoList)
+            {
+                <tr class="@(@toDo.Status==Status.Completed?"table-success":@toDo.Status==Status.InProgress?"table-warning":"table-primary")">
+                    <td>@toDo.CreatedDate.ToShortDateString()</td>
+                    <td>@toDo.Description</td>
+                    <td>@toDo.Status.ToString()</td>
+                    <td><button @onclick="@(() => StartTodo(toDo.Id))"><i class="oi oi-media-play"></i></button></td>
+                    <td><button @onclick="@(() => CompleteTodo(toDo.Id))"><i class="oi oi-check"></i></button></td>
+                    <td><button @onclick="@(() => RemoveTodo(toDo.Id))"><i class="oi oi-trash"></i></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (toDoList != null)
+{
+    <div class="form-inline">
+        <input class="form-control col-mb-4" placeholder="Add new item" @bind="@newItem" />
+        <button class="btn btn-primary col-mb-2" @onclick="@AddTodo">Create</button>
+    </div>
+}
+
+
+@code {
+
+    List<ToDoItem> toDoList;
+    private string currentUser;
+    private string newItem;
+
+    private ToDo.ToDoClient grpcClient;
+
+    private Metadata headers;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+        grpcClient = new ToDo.ToDoClient(Channel);
+        var token = await LocalStorageService.GetItemAsync<string>("authToken");
+        headers = new Metadata();
+        headers.Add("Authorization", $"Bearer {token}");
+
+        if (user.Identity.IsAuthenticated)
+        {
+            currentUser = user.Identity.Name;
+            var response = await grpcClient.GetToDoListAsync(new GetToDoListRequest { Username = currentUser }, headers);
+            toDoList = new List<ToDoItem>();
+
+            foreach (var item in response.ToDoList)
+            {
+                var todo = new ToDoItem(item.Description, (Status)item.Status, item.CreatedDate.ToDateTime(), item.Id);
+                toDoList.Add(todo);
+            }
+        }
+        else
+        {
+            NavigationManager.NavigateTo("login/");
+        }
+
+    }
+
+
+    private async Task AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newItem))
+        {
+            var todo = new ToDoItem(newItem, currentUser);
+            toDoList.Add(todo);
+            await grpcClient.AddToDoAsync(new AddToDoRequest { Description = todo.Description, Id = todo.Id.ToString(), Username = todo.Username }, headers);
+            newItem = string.Empty;
+        }
+    }
+
+    private async Task RemoveTodo(Guid guid)
+    {
+        toDoList.Remove(toDoList.First(x => x.Id.Equals(guid)));
+        await grpcClient.DeleteToDoAsync(new DeleteToDoRequest { Id = guid.ToString(), Username = currentUser }, headers);
+    }
+
+    private async Task StartTodo(Guid guid)
+    {
+        await UpdateTodo(guid, Status.InProgress);
+    }
+
+    private async Task CompleteTodo(Guid guid)
+    {
+        await UpdateTodo(guid, Status.Completed);
+    }
+
+    private async Task UpdateTodo(Guid guid, Status status)
+    {
+        var todo = toDoList.First(x => x.Id.Equals(guid));
+        todo.SetStatus(status);
+        await grpcClient.UpdateToDoAsync(new UpdateToDoRequest { Username = currentUser, Description = todo.Description, Id = guid.ToString(), Status = (int)todo.Status }, headers);
+    }
+
+}

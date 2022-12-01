@@ -1,0 +1,2 @@
+﻿The scope of this project is to create the interface of the application - since the main architecture is focused on the REST API, the interface is very simple and does not follow any recommended UI practices.
+This project should have reference just to ToDoApp.Entity, all the backend logic will be called via API.

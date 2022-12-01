@@ -1,0 +1,111 @@
+﻿@page "/todorest"
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Components.Authorization
+@using ToDoApp.Domain.Entities
+@using ToDoApp.Domain.Enums
+@inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<h1>To Do REST</h1>
+
+<p>To Do list.</p>
+
+@if (toDoList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Created date</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Start</th>
+                <th scope="col">Complete</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var toDo in toDoList)
+            {
+                <tr class="@(@toDo.Status==Status.Completed?"table-success":@toDo.Status==Status.InProgress?"table-warning":"table-primary")">
+                    <td>@toDo.CreatedDate.ToShortDateString()</td>
+                    <td>@toDo.Description</td>
+                    <td>@toDo.Status.ToString()</td>
+                    <td><button @onclick="@(() => StartTodo(toDo.Id))"><i class="oi oi-media-play"></i></button></td>
+                    <td><button @onclick="@(() => CompleteTodo(toDo.Id))"><i class="oi oi-check"></i></button></td>
+                    <td><button @onclick="@(() => RemoveTodo(toDo.Id))"><i class="oi oi-trash"></i></button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (toDoList != null)
+{
+    <div class="form-inline">
+        <input class="form-control col-mb-4" placeholder="Add new item" @bind="@newItem" />
+        <button class="btn btn-primary col-mb-2" @onclick="@AddTodo">Create</button>
+    </div>
+}
+
+@code {
+    List<ToDoItem> toDoList;
+    private string newItem;
+    private string currentUser;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            currentUser = user.Identity.Name;
+            toDoList = await Http.GetFromJsonAsync<List<ToDoItem>>("api/todo");
+        }
+        else
+        {
+            NavigationManager.NavigateTo("login/");
+        }
+    }
+
+    private async Task AddTodo()
+    {
+        if (!string.IsNullOrWhiteSpace(newItem))
+        {
+            var todo = new ToDoItem(newItem, currentUser);
+            toDoList.Add(todo);
+            await Http.PostAsJsonAsync("api/todo", new { description = newItem, id = todo.Id });
+            newItem = string.Empty;
+        }
+    }
+
+    private void RemoveTodo(Guid guid)
+    {
+        toDoList.Remove(toDoList.First(x => x.Id.Equals(guid)));
+        Http.DeleteAsync($"api/todo/{guid}");
+    }
+
+    private async Task StartTodo(Guid guid)
+    {
+        await UpdateTodo(guid, Status.InProgress);
+    }
+
+    private async Task CompleteTodo(Guid guid)
+    {
+        await UpdateTodo(guid, Status.Completed);
+    }
+
+    private async Task UpdateTodo(Guid guid, Status status)
+    {
+        var todo = toDoList.First(x => x.Id.Equals(guid));
+        todo.SetStatus(status);
+        await Http.PutAsJsonAsync("api/todo", new { id = guid, description = todo.Description, status = todo.Status });
+    }
+}

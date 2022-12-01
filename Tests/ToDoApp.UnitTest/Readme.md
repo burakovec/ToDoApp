@@ -1,0 +1,1 @@
+﻿The scope of this project is to add unit tests for all domain layers.
