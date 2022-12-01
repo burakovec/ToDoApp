@@ -1,11 +1,11 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using MediatR;
-using ToDoApp.Application.ToDo.Queries;
-using Google.Protobuf.WellKnownTypes;
+using Microsoft.AspNetCore.Authorization;
 using ToDoApp.Application.ToDo.Commands.CreateToDo;
 using ToDoApp.Application.ToDo.Commands.DeleteToDo;
 using ToDoApp.Application.ToDo.Commands.UpdateToDo;
-using Microsoft.AspNetCore.Authorization;
+using ToDoApp.Application.ToDo.Queries;
 
 namespace ToDoApp.Server.GRPC.Services
 {
@@ -22,26 +22,26 @@ namespace ToDoApp.Server.GRPC.Services
 
         public override async Task<GetToDoListReply> GetToDoList(GetToDoListRequest request, ServerCallContext context)
         {
-            var result = await _mediator.Send(new GetToDoListQuery(request.Username));
-            var response = new GetToDoListReply();
-            foreach (var item in result)
-            {
-                response.ToDoList.Add(
-                    new GetToDoListReply.Types.ToDoView
-                        {
-                            CreatedDate = Timestamp.FromDateTime(item.CreatedDate.ToUniversalTime()),
-                            Description = item.Description,
-                            Status = (int)item.Status,
-                            Id = item.Id.ToString()
-                        });
-            }
+            //var result = await _mediator.Send(new GetToDoListQuery(request.Username, null));
+            //var response = new GetToDoListReply();
+            //foreach (var item in result)
+            //{
+            //    response.ToDoList.Add(
+            //        new GetToDoListReply.Types.ToDoView
+            //        {
+            //            CreatedDate = Timestamp.FromDateTime(item.CreatedDate.ToUniversalTime()),
+            //            Description = item.Description,
+            //            Status = (int)item.Status,
+            //            Id = item.Id.ToString()
+            //        });
+            //}
 
-            return response;
+            return null;
         }
 
         public override async Task<Empty> AddToDo(AddToDoRequest request, ServerCallContext context)
         {
-            var command = new CreateToDoCommand(request.Id, request.Description,request.Username);
+            var command = new CreateToDoCommand(request.Id, request.Description, request.Username);
             await _mediator.Send(command);
 
             return new Empty();

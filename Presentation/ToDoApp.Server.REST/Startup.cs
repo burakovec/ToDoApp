@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using ToDoApp.Persistence;
 using ToDoApp.Server.Common.Extensions;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.OData;
 
 namespace ToDoApp.Server.REST
 {
@@ -16,7 +17,9 @@ namespace ToDoApp.Server.REST
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddOData(conf =>
+            services.AddControllers()
+                //.AddJsonOptions(ops => ops.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve)
+                .AddOData(conf =>
             {
                 conf.EnableQueryFeatures();
             });

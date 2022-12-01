@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ToDoApp.Application.Interfaces;
 using ToDoApp.Domain.Entities;
+using ToDoApp.Domain.Enums;
 
 namespace ToDoApp.Persistence.ToDo
 {
@@ -20,9 +21,9 @@ namespace ToDoApp.Persistence.ToDo
             return await _toDoDataContext.ToDoItems.Where(x => x.Id.Equals(id) && x.Username.Equals(username)).SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<ToDoItem>> GetToDoList(string username)
+        public async Task<IQueryable<ToDoItem>> GetToDoList(string username)
         {
-            return _toDoDataContext.ToDoItems.Where(x => x.Username.Equals(username)).AsQueryable();
+            return _toDoDataContext.ToDoItems.Where(x => x.Username.Equals(username)).Where(x => x.Status != Status.Deleted).AsQueryable();
         }
     }
 }

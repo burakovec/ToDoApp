@@ -3,7 +3,6 @@ using MediatR;
 
 using ToDoApp.Application.Interfaces;
 using ToDoApp.Domain.Entities;
-using ToDoApp.Domain.Enums;
 
 namespace ToDoApp.Application.ToDo.Queries
 {
@@ -19,7 +18,8 @@ namespace ToDoApp.Application.ToDo.Queries
         public async Task<IQueryable<ToDoItem>> Handle(GetToDoListQuery request, CancellationToken cancellationToken)
         {
             var toDoList = await _queryRepository.GetToDoList(request.Username);
-            return toDoList.Where(x => x.Status != Status.Deleted).AsQueryable();
+            var data = request.QueryOptions.ApplyTo(toDoList);
+            return toDoList;
         }
     }
 }

@@ -7,6 +7,7 @@ using ToDoApp.Application.ToDo.Commands.CreateToDo;
 using ToDoApp.Application.ToDo.Commands.DeleteToDo;
 using ToDoApp.Application.ToDo.Commands.UpdateToDo;
 using ToDoApp.Application.ToDo.Queries;
+using ToDoApp.Domain.Entities;
 
 namespace ToDoApp.Server.REST.Controllers
 {
@@ -24,9 +25,9 @@ namespace ToDoApp.Server.REST.Controllers
 
         [HttpGet]
         [EnableQuery]
-        public async Task<IActionResult> GetToDoList()
+        public async Task<IActionResult> GetToDoList(ODataQueryOptions<ToDoItem> queryOptions)
         {
-            var result = await _mediator.Send(new GetToDoListQuery(User.Identity.Name));
+            var result = await _mediator.Send(new GetToDoListQuery(User.Identity.Name, queryOptions));
             return Ok(result);
         }
 
