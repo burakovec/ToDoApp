@@ -6,7 +6,7 @@ using ToDoApp.Domain.Generics;
 
 namespace ToDoApp.Application.ToDo.Queries
 {
-    public class GetToDoListQuery : IRequest<IQueryable<ToDoItem>>
+    public class GetToDoListQuery : IRequest<Pagination>
     {
         public GetToDoListQuery(string username, ODataQueryOptions<ToDoItem> queryOptions)
         {

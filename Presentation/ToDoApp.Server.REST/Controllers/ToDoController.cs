@@ -24,7 +24,7 @@ namespace ToDoApp.Server.REST.Controllers
         }
 
         [HttpGet]
-        [EnableQuery]
+        //[EnableQuery]
         public async Task<IActionResult> GetToDoList(ODataQueryOptions<ToDoItem> queryOptions)
         {
             var result = await _mediator.Send(new GetToDoListQuery(User.Identity.Name, queryOptions));
