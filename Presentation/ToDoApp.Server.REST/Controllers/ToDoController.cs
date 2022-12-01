@@ -23,13 +23,21 @@ namespace ToDoApp.Server.REST.Controllers
             _mediator = mediator;
         }
 
-        [HttpGet]
-        //[EnableQuery]
+        [HttpGet] 
         public async Task<IActionResult> GetToDoList(ODataQueryOptions<ToDoItem> queryOptions)
         {
-            var result = await _mediator.Send(new GetToDoListQuery(User.Identity.Name, queryOptions));
-            return Ok(result);
-        }
+            try
+            {
+                var result = await _mediator.Send(new GetToDoListQuery(User.Identity.Name, queryOptions));
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
+        } 
 
         [HttpPost]
         public async Task<IActionResult> CreateToDo(CreateToDoCommand command)

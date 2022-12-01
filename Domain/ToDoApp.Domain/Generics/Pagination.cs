@@ -4,11 +4,14 @@
     {
         public Pagination(IQueryable content)
         {
-            this.Content = content;
-        }
-        public int TotalCount = 200;
-        public int PageSize = 5;
-        public int TotalPage = 20;
-        public IQueryable Content { get; set; }
+            this.content = content;
+            this.TotalCount = 200;
+            this.TotalPage = 20;
+            this.PageSize = 5;
+        } 
+        public int TotalCount { get; set; }  
+        public int PageSize { get; set; } 
+        public int TotalPage { get; set; } 
+        public IQueryable content { get; set; }
     }
 }
