@@ -29,10 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Server.REST", "Pres
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoApp.Server.Common", "Presentation\ToDoApp.Server.Common\ToDoApp.Server.Common.csproj", "{F1E2135A-9C67-43CA-A41F-066B5064FFE0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Odata", "Odata", "{87752190-A372-456E-9800-BA7C818DC7AF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Odata.Pagination", "Odata.Pagination\Odata.Pagination.csproj", "{C0F313D9-C713-4BFE-ACF3-3DE6F2D6DE6C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,10 +71,6 @@ Global
 		{F1E2135A-9C67-43CA-A41F-066B5064FFE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1E2135A-9C67-43CA-A41F-066B5064FFE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1E2135A-9C67-43CA-A41F-066B5064FFE0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C0F313D9-C713-4BFE-ACF3-3DE6F2D6DE6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C0F313D9-C713-4BFE-ACF3-3DE6F2D6DE6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C0F313D9-C713-4BFE-ACF3-3DE6F2D6DE6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C0F313D9-C713-4BFE-ACF3-3DE6F2D6DE6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -93,7 +85,6 @@ Global
 		{09D94029-596A-495A-98EA-E1AF7237634A} = {D543C76C-6181-402F-94D6-1FEC1B333BC2}
 		{1B6AB6DB-2889-438C-B157-29C15A372341} = {D543C76C-6181-402F-94D6-1FEC1B333BC2}
 		{F1E2135A-9C67-43CA-A41F-066B5064FFE0} = {D543C76C-6181-402F-94D6-1FEC1B333BC2}
-		{C0F313D9-C713-4BFE-ACF3-3DE6F2D6DE6C} = {87752190-A372-456E-9800-BA7C818DC7AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D839C813-C2A3-4064-9187-BBCAD2A9DA7E}
